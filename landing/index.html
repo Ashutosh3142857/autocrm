@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoCRM — Get the demo</title>
+<style>
+body{font-family:Inter,system-ui,Arial,sans-serif;background:#0b0b12;color:#eaeaf5;margin:0}
+.container{max-width:720px;margin:60px auto;padding:20px;background:#121225;border:1px solid #1e1e35;border-radius:16px}
+.btn{background:#7a32ff;color:#fff;border:0;padding:12px 16px;border-radius:10px;cursor:pointer}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #2a2a48;background:#0f0f19;color:#fff;margin:8px 0}
+.pill{padding:4px 10px;border-radius:999px;background:#1d1d33;border:1px solid #2a2a48;font-size:12px}
+</style></head><body>
+<div class="container">
+  <h1>AutoCRM — Free Demo</h1>
+  <p class="pill">Fill the form — you’ll get a welcome email (workflow) instantly.</p>
+  <form id="leadForm">
+    <input id="firstName" placeholder="First name" required>
+    <input id="email" placeholder="Email address" type="email" required>
+    <button class="btn" type="submit">Get the demo</button>
+  </form>
+  <p id="msg"></p>
+  <script>
+  document.getElementById('leadForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const firstName = document.getElementById('firstName').value;
+    const email = document.getElementById('email').value;
+    const tenantId = new URLSearchParams(location.search).get('tenant') || undefined;
+    const res = await fetch('/api/public/lead', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName, email, tenantId })});
+    const data = await res.json();
+    document.getElementById('msg').textContent = data.ok ? 'Thanks! Check your email shortly.' : (data.error || 'Something went wrong');
+  });
+  </script>
+</div></body></html>
