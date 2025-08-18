@@ -6,7 +6,7 @@
     file_server
   }
 
-  handle_path /api/* {
+  handle /api/* {
     reverse_proxy api:4000
   }
 
